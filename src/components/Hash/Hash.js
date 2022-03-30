@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { sha256 }          from 'js-sha256';
 
-export default function Hello() {
+export default function Hash() {
   const initialHash     = sha256('');
   const [data, setData] = useState('');
   const [hash, setHash] = useState(initialHash);
@@ -17,7 +17,7 @@ export default function Hello() {
     <div>
       <h2>SHA256 Hash</h2>
 
-      <div className="bg-faintred shadow-sm p-4 rounded">
+      <div className="bg-faintgrey shadow-sm p-4 rounded">
         <div className="container">
           <div className="row my-4">
             <div className="col-1">
