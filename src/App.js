@@ -7,6 +7,7 @@ import './index.scss';
 import Navbar                         from './components/Layout/Navbar';
 import Hash                           from './components/Hash/Hash';
 import Block                          from './components/Block/Block';
+import Blockchain                     from './components/Blockchain/Blockchain';
 import Derp                           from './components/Hello/Derp';
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
         <Switch>
           <Route exact path="/"       component={ Hash } />
           <Route path="/block"        component={ Block } />
-          <Route path="/blockchain"   component={ Derp } />
+          <Route path="/blockchain"   component={ Blockchain } />
           <Route path="/distributed"  component={ Derp } />
           <Route path="/tokens"       component={ Derp } />
           <Route path="/coinbase"     component={ Derp } />

@@ -7,15 +7,8 @@ export default function Block() {
   const initialHash                 = sha256(`${ block }${ nonce }`);
   const [data, setData]             = useState('');
   const [hash, setHash]             = useState(initialHash);
-  const [bgColor, setBgColor]       = useState('bg-faintgrey');
+  const [bgColor, setBgColor]       = useState('bg-faintgreen');
   const [showLoader, setShowLoader] = useState('d-none');
-
-  const setSha256 = (event) => {
-    const value   = event.target.value;
-    const hashed  = sha256(value);
-    setData(value);
-    setHash(hashed);
-  }
 
   useEffect(() => {
     const newHash = sha256(`${ block }${ nonce }${ data }`);
@@ -23,7 +16,7 @@ export default function Block() {
     setHash(newHash);
 
     if (check === '0000') {
-      setBgColor('bg-faintgrey');
+      setBgColor('bg-faintgreen');
     } else {
       setBgColor('bg-faintred');
     }
@@ -69,7 +62,7 @@ export default function Block() {
             </div>
 
             <div className="col-11">
-              <input name="block" type="number" className="form-control" value={ nonce } onChange={(e) => setNonce(e.target.value) } />
+              <input name="block" type="text" className="form-control" value={ nonce } onChange={(e) => setNonce(e.target.value) } />
             </div>
           </div>
 
@@ -79,11 +72,7 @@ export default function Block() {
             </div>
 
             <div className="col-11">
-              <textarea name="data" type="area" rows="10"
-                className="form-control py-3 px-4"
-                value={ data }
-                onChange={(e) => setSha256(e) }
-              />
+              <textarea name="data" type="area" rows="10" className="form-control py-3 px-4" value={ data } onChange={(e) => setData(e) }/>
             </div>
           </div>
 
