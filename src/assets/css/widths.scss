@@ -1,0 +1,73 @@
+/*
+  Widths Manifest
+  1. .w-em-1 to .w-em-100. Each increment is 0.5em.
+    .w-em-50 {
+      width: 25em;
+    }
+    .w-em-1 {
+      width: 0.5em;
+    }
+    .w-em-2 {
+      width: 1em;
+    }
+  2. All the above can be used to be exclusive to large or small screens
+    Example:
+    a. Large screens
+      @media screen and (min-width: 1024px) {
+        .max-w-lg-em-100 {
+          max-width: 50em;
+        }
+      }
+    b. Small screens
+      @media screen and (max-width: 1023px) {
+        .w-sm-em-25 {
+          width: 12.5em;
+        }
+      }
+*/
+
+@mixin regular_or_percentage_width($i, $screen) {
+  $x: $i / 2;
+
+  .w#{ $screen }-em-#{ $i } {
+    width: #{ $x }em;
+  }
+
+  .max-w#{ $screen }-em-#{ $i } {
+    max-width: #{ $x }em;
+  }
+
+  .min-w#{ $screen }-em-#{ $i } {
+    min-width: #{ $x }em;
+  }
+}
+
+@mixin auto_width($screen) {
+  .w#{ $screen }-auto {
+    width: auto;
+  }
+}
+
+@for $i from 1 through 100 {
+  @include regular_or_percentage_width($i, null);
+}
+
+@include auto_width(null);
+
+/* Large screen sizes - 1024px and above */
+@media screen and (min-width: 1024px) {
+  @for $i from 1 through 100 {
+    @include regular_or_percentage_width($i, -lg);
+  }
+
+  @include auto_width(-lg);
+}
+
+/* Small screen sizes - 1023px and below */
+@media screen and (max-width: 1023px) {
+  @for $i from 1 through 100 {
+    @include regular_or_percentage_width($i, -sm);
+  }
+
+  @include auto_width(-sm);
+}

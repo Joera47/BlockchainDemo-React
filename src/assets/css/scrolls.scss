@@ -1,0 +1,19 @@
+.scrollbar-grey::-webkit-scrollbar {
+  width: 0.8em; // For vertical scroll.
+  height: 0.8em; // For horizontal scroll.
+}
+
+.scrollbar-grey::-webkit-scrollbar-thumb {
+  background-color: #9b9b9b;
+  border-radius: 20px;
+}
+
+.scrollbar-white::-webkit-scrollbar {
+  width: 0.8em; // For vertical scroll.
+  height: 0.8em; // For horizontal scroll.
+}
+
+.scrollbar-white::-webkit-scrollbar-thumb {
+  background-color: #FFF;
+  border-radius: 20px;
+}

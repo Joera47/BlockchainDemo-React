@@ -1,0 +1,30 @@
+h1 { font-size: 2.5em; }
+h2 { font-size: 2em; }
+h3 { font-size: 1.75em; }
+h4 { font-size: 1.5em; }
+h5 { font-size: 1.25em; }
+h6 { font-size: 1em; }
+.btn, .form-control { font-size: 1.1em; }
+
+/*
+  Fonts go from font-size-1 to font-size-20.
+  Starts from 0.5em (font-size-1) to 2.5em (font-size-20).
+*/
+@for $i from 1 through 20 {
+  $x: 0.5 + (0.1 * $i);
+
+  .font-size-#{ $i } {
+    font-size: #{ $x }em;
+  }
+}
+
+/*
+  Font weights go from fweight-100 to fweight-900.
+*/
+@for $i from 1 through 9 {
+  $x: 100 * $i;
+
+  .fweight-#{ $x } {
+    font-weight: #{ $x };
+  }
+}
