@@ -7,10 +7,10 @@ export default function Distributed() {
 
       <h4>Peer A</h4>
       { SingleBlockchain() }
-
+      <hr/>
       <h4>Peer B</h4>
       { SingleBlockchain() }
-
+      <hr/>
       <h4>Peer C</h4>
       { SingleBlockchain() }
     </div>

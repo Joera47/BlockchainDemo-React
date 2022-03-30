@@ -3,7 +3,7 @@ import { sha256 }                     from 'js-sha256';
 
 export default function SingleBlockchain(type) {
   const blocks                          = [1, 2, 3, 4, 5];
-  let startingNonces                    = [16484, 35230, 12937, 35990, 56265];
+  let startingNonces                    = [11316, 35230, 12937, 35990, 56265];
   if (type === 'transactions') { startingNonces = [16484, 148515, 10822, 13219, 129900]}
   const [nonces, setNonces]             = useState(startingNonces);
   const [datas, setDatas]               = useState(Array(5).fill(''));

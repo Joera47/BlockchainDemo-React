@@ -7,10 +7,10 @@ export default function Tokens() {
 
       <h4>Peer A</h4>
       { SingleBlockchain('transactions') }
-
+      <hr/>
       <h4>Peer B</h4>
       { SingleBlockchain('transactions') }
-
+      <hr/>
       <h4>Peer C</h4>
       { SingleBlockchain('transactions') }
     </div>
