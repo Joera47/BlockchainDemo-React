@@ -5,7 +5,7 @@ import './index.scss';
 
 // Components
 import Navbar                         from './components/Layout/Navbar';
-import Hello                          from './components/Hello/Hello';
+import Hash                          from './components/Hash/Hash';
 import Derp                           from './components/Hello/Derp';
 
 function App() {
@@ -15,10 +15,14 @@ function App() {
     <div className="App">
       <Navbar/>
 
-      <div>
+      <div className="my-4 px-8">
         <Switch>
-          <Route exact path="/"                  component={ Hello } />
-          <Route path="/hello"                   component={ Derp } />
+          <Route exact path="/"       component={ Hash } />
+          <Route path="/block"        component={ Derp } />
+          <Route path="/blockchain"   component={ Derp } />
+          <Route path="/distributed"  component={ Derp } />
+          <Route path="/tokens"       component={ Derp } />
+          <Route path="/coinbase"     component={ Derp } />
         </Switch>
       </div>
     </div>
