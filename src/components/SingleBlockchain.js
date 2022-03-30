@@ -2,13 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { sha256 }                     from 'js-sha256';
 
 export default function SingleBlockchain(type) {
-  const blocks                        = [1, 2, 3, 4, 5];
-  const [nonces, setNonces]           = useState([11316, 35230, 12937, 35990, 56265]);
-  const [datas, setDatas]             = useState(Array(5).fill(''));
-  const [prevs, setPrevs]             = useState(Array(5).fill(''));
-  const [hashes, setHashes]           = useState(Array(5).fill(''));
-  const [bgColors, setBgColors]       = useState(Array(5).fill('bg-faintgree'));
-  const [showLoaders, setShowLoaders] = useState(Array(5).fill('d-none'));
+  const blocks                          = [1, 2, 3, 4, 5];
+  const [nonces, setNonces]             = useState([11316, 35230, 12937, 35990, 56265]);
+  const [datas, setDatas]               = useState(Array(5).fill(''));
+  const [prevs, setPrevs]               = useState(Array(5).fill(''));
+  const [hashes, setHashes]             = useState(Array(5).fill(''));
+  const [bgColors, setBgColors]         = useState(Array(5).fill('bg-faintgree'));
+  const [showLoaders, setShowLoaders]   = useState(Array(5).fill('d-none'));
+
+  const startingTransactions            = [
+    [{ value: 100.00, from: 'Joey', to: 'Harry' }],
+    [{ value: 25.00, from: 'Harry', to: 'Hermione' }, { value: 47.00, from: 'Harry', to: 'Ginny' }],
+    [{ value: 12.50, from: 'Hermione', to: 'Ronald' }, { value: 10.00, from: 'Hermione', to: 'Dobby' }, { value: 10.00, from: 'Ginny', to: 'Molly' }],
+    [{ value: 10.00, from: 'Ronald', to: 'George' }, { value: 5.47, from: 'Molly', to: 'Arthur' }],
+    [{ value: 4.00, from: 'Arthur', to: 'Angelina' }]
+  ];
+
+  const [transactions, setTransactions] = useState(startingTransactions);
+  let width                             = 'w-em-60';
+  if (type === 'transactions') { width = 'w-em-80' };
+  if (type === 'coinbase') {  }
 
   const setData = (event, index) => {
     let newDatas    = [...datas];
@@ -74,25 +87,33 @@ export default function SingleBlockchain(type) {
     let dataInput = <textarea name="data" type="area" rows="10" className="form-control py-3 px-4" value={ datas[index] } onChange={(e) => setData(e, index) } />;
 
     if (type === 'transactions') {
-      dataInput = <div className="d-flex align-items-center bg-faintgrey rounded border border-dark">
-        <p className="mb-0 px-2">$</p>
+      const transactionHashes = transactions[index];
 
-        <input name="block" type="number"
-          className="form-control border-dark rounded-0 me-2"
-          value={ '' } onChange={() => console.log('derp')} />
+      dataInput = transactionHashes.map((transactionHash, index) => {
+        return (
+          <div className="d-flex align-items-center bg-faintgrey rounded border border-lightgrey">
+            <p className="mb-0 px-2">$</p>
 
-        <p className="mb-0 pe-2">From:</p>
+            <input name="block" type="number"
+              className="form-control border-0 border-start border-end border-lightgrey rounded-0 me-2"
+              value={ transactionHash.value } onChange={() => console.log('derp')} />
 
-        <input name="block" type="text"
-          className="form-control border-dark rounded-0 me-2"
-          value={ '' } onChange={() => console.log('derp')} />
+            <p className="mb-0 pe-2">From:</p>
 
-        <p className="mb-0 pe-2">To:</p>
+            <input name="block" type="text"
+              className="form-control border-0 border-start border-end border-lightgrey rounded-0 me-2"
+              value={ transactionHash.from } onChange={() => console.log('derp')} />
 
-        <input name="block" type="text"
-          className="form-control border-dark rounded-0 rounded-end"
-          value={ '' } onChange={() => console.log('derp')} />
-      </div>
+            <p className="mb-0 pe-2">To:</p>
+
+            <input name="block" type="text"
+              className="form-control border-0 border-start border-lightgrey rounded-0 rounded-end"
+              value={ transactionHash.to } onChange={() => console.log('derp')} />
+          </div>
+        )
+      });
+
+
     } else if (type === 'coinbase') {
 
     }
@@ -110,10 +131,9 @@ export default function SingleBlockchain(type) {
     )
   }
 
-
   const displayedBlockchain = blocks.map((value, index) => {
     return (
-      <div key={ value} className={ bgColors[index] + ' d-inline-block m-2 shadow-sm p-1 rounded w-em-60' }>
+      <div key={ value} className={ bgColors[index] + ' m-2 shadow-sm p-1 rounded flex-shrink-0 ' + width }>
         <div className="container">
           <div className="row my-4">
             <div className="col-2">
@@ -167,6 +187,6 @@ export default function SingleBlockchain(type) {
   });
 
   return (
-    <div className="overflow-auto text-nowrap pb-2">{ displayedBlockchain }</div>
+    <div className="d-flex flex-nowrap overflow-auto pb-2">{ displayedBlockchain }</div>
   );
 }
