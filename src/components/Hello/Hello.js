@@ -1,6 +1,10 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink }  from 'react-router-dom';
+import { sha256 }   from 'js-sha256';
 
 export default function Hello() {
+  const hashed = sha256('Message to hash');
+  console.log(hashed);
+
   return (
     <div>
       <h4>Hello World!</h4>

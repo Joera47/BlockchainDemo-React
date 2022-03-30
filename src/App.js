@@ -1,9 +1,10 @@
 import React                          from 'react';
-import { Switch, Route, withRouter }  from 'react-router-dom';
+import { Switch, Route }              from 'react-router-dom';
 
 import './index.scss';
 
 // Components
+import Navbar                         from './components/Layout/Navbar';
 import Hello                          from './components/Hello/Hello';
 import Derp                           from './components/Hello/Derp';
 
@@ -12,6 +13,8 @@ function App() {
 
   return (
     <div className="App">
+      <Navbar/>
+
       <div>
         <Switch>
           <Route exact path="/"                  component={ Hello } />
