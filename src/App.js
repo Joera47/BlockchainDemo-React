@@ -4,11 +4,12 @@ import { Switch, Route }              from 'react-router-dom';
 import './index.scss';
 
 // Components
-import Navbar                         from './components/Layout/Navbar';
-import Hash                           from './components/Hash/Hash';
-import Block                          from './components/Block/Block';
-import Blockchain                     from './components/Blockchain/Blockchain';
-import Derp                           from './components/Hello/Derp';
+import Navbar                         from 'pages/Layout/Navbar';
+import Hash                           from 'pages/Hash/Hash';
+import Block                          from 'pages/Block/Block';
+import Blockchain                     from 'pages/Blockchain/Blockchain';
+import Distributed                    from 'pages/Distributed/Distributed';
+import Derp                           from 'pages/Hello/Derp';
 
 function App() {
   // console.log({ REACT_APP_ENVIRONMENT: process.env.REACT_APP_ENVIRONMENT });
@@ -22,7 +23,7 @@ function App() {
           <Route exact path="/"       component={ Hash } />
           <Route path="/block"        component={ Block } />
           <Route path="/blockchain"   component={ Blockchain } />
-          <Route path="/distributed"  component={ Derp } />
+          <Route path="/distributed"  component={ Distributed } />
           <Route path="/tokens"       component={ Derp } />
           <Route path="/coinbase"     component={ Derp } />
         </Switch>

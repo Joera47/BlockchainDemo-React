@@ -141,7 +141,7 @@ export default function Blockchain() {
 
   return (
     <div>
-      <h2>Block</h2>
+      <h2>Blockchain</h2>
       <div className="overflow-auto text-nowrap pb-2">{ displayedBlockchain }</div>
     </div>
   );
