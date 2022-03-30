@@ -72,7 +72,7 @@ export default function Block() {
             </div>
 
             <div className="col-11">
-              <textarea name="data" type="area" rows="10" className="form-control py-3 px-4" value={ data } onChange={(e) => setData(e) }/>
+              <textarea name="data" type="area" rows="10" className="form-control py-3 px-4" value={ data } onChange={(e) => setData(e.target.value) }/>
             </div>
           </div>
 

@@ -3,7 +3,9 @@ import { sha256 }                     from 'js-sha256';
 
 export default function SingleBlockchain(type) {
   const blocks                          = [1, 2, 3, 4, 5];
-  const [nonces, setNonces]             = useState([11316, 35230, 12937, 35990, 56265]);
+  let startingNonces                    = [16484, 35230, 12937, 35990, 56265];
+  if (type === 'transactions') { startingNonces = [16484, 148515, 10822, 13219, 129900]}
+  const [nonces, setNonces]             = useState(startingNonces);
   const [datas, setDatas]               = useState(Array(5).fill(''));
   const [prevs, setPrevs]               = useState(Array(5).fill(''));
   const [hashes, setHashes]             = useState(Array(5).fill(''));
@@ -11,11 +13,11 @@ export default function SingleBlockchain(type) {
   const [showLoaders, setShowLoaders]   = useState(Array(5).fill('d-none'));
 
   const startingTransactions            = [
-    [{ value: 100.00, from: 'Joey', to: 'Harry' }],
-    [{ value: 25.00, from: 'Harry', to: 'Hermione' }, { value: 47.00, from: 'Harry', to: 'Ginny' }],
-    [{ value: 12.50, from: 'Hermione', to: 'Ronald' }, { value: 10.00, from: 'Hermione', to: 'Dobby' }, { value: 10.00, from: 'Ginny', to: 'Molly' }],
-    [{ value: 10.00, from: 'Ronald', to: 'George' }, { value: 5.47, from: 'Molly', to: 'Arthur' }],
-    [{ value: 4.00, from: 'Arthur', to: 'Angelina' }]
+    [{ value: '100.00', from: 'Joey', to: 'Harry' }],
+    [{ value: '25.00', from: 'Harry', to: 'Hermione' }, { value: '47.00', from: 'Harry', to: 'Ginny' }],
+    [{ value: '12.50', from: 'Hermione', to: 'Ronald' }, { value: '10.00', from: 'Hermione', to: 'Dobby' }, { value: '10.00', from: 'Ginny', to: 'Molly' }],
+    [{ value: '10.00', from: 'Ronald', to: 'George' }, { value: '5.47', from: 'Molly', to: 'Arthur' }],
+    [{ value: '4.00', from: 'Arthur', to: 'Angelina' }]
   ];
 
   const [transactions, setTransactions] = useState(startingTransactions);
@@ -38,7 +40,16 @@ export default function SingleBlockchain(type) {
     for (let i = 0; i < blocks.length; i++) {
       const block   = blocks[i];
       const nonce   = nonces[i];
-      const data    = datas[i];
+      let data;
+
+      if (type === 'transactions') {
+        data = transactions[i].map((hash) => {
+          return `v:${ hash.value };f:${ hash.from };t:${ hash.to }`
+        }).join('\n');
+      } else {
+        data = datas[i];
+      }
+
       const newHash = sha256(`${ block }${ nonce }${ data }${ currentPrev }`);
       newPrevs.push(currentPrev);
       currentPrev   = newHash;
@@ -55,13 +66,24 @@ export default function SingleBlockchain(type) {
     setPrevs(newPrevs);
     setHashes(newHashes);
     setBgColors(newBgColors);
-  }, [nonces, datas]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [nonces, datas, transactions]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const startMining = (index) => {
     var newShowLoaders    = [...showLoaders];
     var newNonces         = [...nonces];
     const block           = blocks[index];
-    const data            = datas[index];
+    let data;
+
+    if (type === 'transactions') {
+      data = transactions[index].map((hash) => {
+        return `v:${ hash.value };f:${ hash.from };t:${ hash.to }`
+      }).join('\n');
+
+      console.log(data);
+    } else {
+      data = datas[index];
+    }
+
     const prev            = prevs[index];
     newShowLoaders[index] = '';
     setShowLoaders(newShowLoaders);
@@ -89,26 +111,32 @@ export default function SingleBlockchain(type) {
     if (type === 'transactions') {
       const transactionHashes = transactions[index];
 
-      dataInput = transactionHashes.map((transactionHash, index) => {
+      const calculateHash = (type, index, i, value) => {
+        let newTransactions             = [...transactions];
+        newTransactions[index][i][type] = value;
+        setTransactions(newTransactions);
+      }
+
+      dataInput = transactionHashes.map((transactionHash, i) => {
         return (
-          <div className="d-flex align-items-center bg-faintgrey rounded border border-lightgrey">
+          <div key={ `${ index }-transaction-${ i }` } className="d-flex align-items-center bg-faintgrey rounded border border-lightgrey">
             <p className="mb-0 px-2">$</p>
 
             <input name="block" type="number"
               className="form-control border-0 border-start border-end border-lightgrey rounded-0 me-2"
-              value={ transactionHash.value } onChange={() => console.log('derp')} />
+              value={ transactionHash.value } onChange={(e) => calculateHash('value', index, i, e.target.value)} />
 
             <p className="mb-0 pe-2">From:</p>
 
             <input name="block" type="text"
               className="form-control border-0 border-start border-end border-lightgrey rounded-0 me-2"
-              value={ transactionHash.from } onChange={() => console.log('derp')} />
+              value={ transactionHash.from } onChange={(e) => calculateHash('from', index, i, e.target.value)} />
 
             <p className="mb-0 pe-2">To:</p>
 
             <input name="block" type="text"
               className="form-control border-0 border-start border-lightgrey rounded-0 rounded-end"
-              value={ transactionHash.to } onChange={() => console.log('derp')} />
+              value={ transactionHash.to } onChange={(e) => calculateHash('to', index, i, e.target.value)} />
           </div>
         )
       });
