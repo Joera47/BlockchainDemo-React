@@ -1,4 +1,4 @@
-import SingleBlockchain               from 'components/SingleBlockchain';
+import SingleBlockchain from 'components/SingleBlockchain';
 
 export default function Blockchain() {
   return (

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { sha256 }                     from 'js-sha256';
 
-export default function SingleBlockchain() {
+export default function SingleBlockchain(type) {
   const blocks                        = [1, 2, 3, 4, 5];
   const [nonces, setNonces]           = useState([11316, 35230, 12937, 35990, 56265]);
   const [datas, setDatas]             = useState(Array(5).fill(''));
@@ -70,6 +70,47 @@ export default function SingleBlockchain() {
     }
   }
 
+  let dataSection = (index) => {
+    let dataInput = <textarea name="data" type="area" rows="10" className="form-control py-3 px-4" value={ datas[index] } onChange={(e) => setData(e, index) } />;
+
+    if (type === 'transactions') {
+      dataInput = <div className="d-flex align-items-center bg-faintgrey rounded border border-dark">
+        <p className="mb-0 px-2">$</p>
+
+        <input name="block" type="number"
+          className="form-control border-dark rounded-0 me-2"
+          value={ '' } onChange={() => console.log('derp')} />
+
+        <p className="mb-0 pe-2">From:</p>
+
+        <input name="block" type="text"
+          className="form-control border-dark rounded-0 me-2"
+          value={ '' } onChange={() => console.log('derp')} />
+
+        <p className="mb-0 pe-2">To:</p>
+
+        <input name="block" type="text"
+          className="form-control border-dark rounded-0 rounded-end"
+          value={ '' } onChange={() => console.log('derp')} />
+      </div>
+    } else if (type === 'coinbase') {
+
+    }
+
+    return(
+      <div className="row my-4">
+        <div className="col-2">
+          <p className="text-right pt-2">Data:</p>
+        </div>
+
+        <div className="col-10">
+          { dataInput }
+        </div>
+      </div>
+    )
+  }
+
+
   const displayedBlockchain = blocks.map((value, index) => {
     return (
       <div key={ value} className={ bgColors[index] + ' d-inline-block m-2 shadow-sm p-1 rounded w-em-60' }>
@@ -94,15 +135,7 @@ export default function SingleBlockchain() {
             </div>
           </div>
 
-          <div className="row my-4">
-            <div className="col-2">
-              <p className="text-right pt-2">Data:</p>
-            </div>
-
-            <div className="col-10">
-              <textarea name="data" type="area" rows="10" className="form-control py-3 px-4" value={ datas[index] } onChange={(e) => setData(e, index) } />
-            </div>
-          </div>
+          { dataSection(index) }
 
           <div className="row my-4">
             <div className="col-2">
