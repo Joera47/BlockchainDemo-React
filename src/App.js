@@ -10,7 +10,7 @@ import Block              from 'pages/Block/Block';
 import Blockchain         from 'pages/Blockchain/Blockchain';
 import Distributed        from 'pages/Distributed/Distributed';
 import Tokens             from 'pages/Tokens/Tokens';
-import Coinbase           from 'pages/Hello/Derp';
+import Coinbase           from 'pages/Coinbase/Coinbase';
 
 function App() {
   // console.log({ REACT_APP_ENVIRONMENT: process.env.REACT_APP_ENVIRONMENT });

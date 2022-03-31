@@ -4,7 +4,8 @@ import { sha256 }                     from 'js-sha256';
 export default function SingleBlockchain(type) {
   const blocks                          = [1, 2, 3, 4, 5];
   let startingNonces                    = [11316, 35230, 12937, 35990, 56265];
-  if (type === 'transactions') { startingNonces = [16484, 148515, 10822, 13219, 129900]}
+  if (type === 'transactions')  { startingNonces = [16484, 148515, 10822, 135644, 529757] }
+  if (type === 'coinbase')      { startingNonces = [39883, 10427, 17568, 5470, 23852] }
   const [nonces, setNonces]             = useState(startingNonces);
   const [datas, setDatas]               = useState(Array(5).fill(''));
   const [prevs, setPrevs]               = useState(Array(5).fill(''));
@@ -12,18 +13,21 @@ export default function SingleBlockchain(type) {
   const [bgColors, setBgColors]         = useState(Array(5).fill('bg-faintgree'));
   const [showLoaders, setShowLoaders]   = useState(Array(5).fill('d-none'));
 
-  const startingTransactions            = [
+  let startingTransactions            = [
     [{ value: '100.00', from: 'Joey', to: 'Harry' }],
     [{ value: '25.00', from: 'Harry', to: 'Hermione' }, { value: '47.00', from: 'Harry', to: 'Ginny' }],
     [{ value: '12.50', from: 'Hermione', to: 'Ronald' }, { value: '10.00', from: 'Hermione', to: 'Dobby' }, { value: '10.00', from: 'Ginny', to: 'Molly' }],
-    [{ value: '10.00', from: 'Ronald', to: 'George' }, { value: '5.47', from: 'Molly', to: 'Arthur' }],
-    [{ value: '4.00', from: 'Arthur', to: 'Angelina' }]
+    [{ value: '10.00', from: 'Ronald', to: 'George' }, { value: '5.47', from: 'Molly', to: 'Arthur' }, { value: '2.00', from: 'Molly', to: 'Fred' }],
+    [{ value: '4.00', from: 'Arthur', to: 'Angelina' }, { value: '1.00', from: 'Arthur', to: 'Charlie' }, { value: '1.00', from: 'Fred', to: 'Percy' }]
   ];
+
+  if (type === 'coinbase') {
+    startingTransactions[0] = [{ value: '100.00', from: 'Coinbase', to: 'Harry' }];
+  }
 
   const [transactions, setTransactions] = useState(startingTransactions);
   let width                             = 'w-em-60';
-  if (type === 'transactions') { width = 'w-em-80' };
-  if (type === 'coinbase') {  }
+  if (['transactions', 'coinbase'].includes(type)) { width = 'w-em-80' };
 
   const setData = (event, index) => {
     let newDatas    = [...datas];
@@ -42,7 +46,7 @@ export default function SingleBlockchain(type) {
       const nonce   = nonces[i];
       let data;
 
-      if (type === 'transactions') {
+      if (['transactions', 'coinbase'].includes(type)) {
         data = transactions[i].map((hash) => {
           return `v:${ hash.value };f:${ hash.from };t:${ hash.to }`
         }).join('\n');
@@ -74,7 +78,7 @@ export default function SingleBlockchain(type) {
     const block           = blocks[index];
     let data;
 
-    if (type === 'transactions') {
+    if (['transactions', 'coinbase'].includes(type)) {
       data = transactions[index].map((hash) => {
         return `v:${ hash.value };f:${ hash.from };t:${ hash.to }`
       }).join('\n');
@@ -108,7 +112,7 @@ export default function SingleBlockchain(type) {
   let dataSection = (index) => {
     let dataInput = <textarea name="data" type="area" rows="10" className="form-control py-3 px-4" value={ datas[index] } onChange={(e) => setData(e, index) } />;
 
-    if (type === 'transactions') {
+    if (['transactions', 'coinbase'].includes(type)) {
       const transactionHashes = transactions[index];
 
       const calculateHash = (type, index, i, value) => {
