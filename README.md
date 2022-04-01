@@ -18,6 +18,6 @@ This runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 ## Demo
-This app is hosted here [Blockchain Demo App](https://super-sopapillas-343917.netlify.app]). \
+This app is hosted here [Blockchain Demo App](https://super-sopapillas-343917.netlify.app). \
 Please note, this app may be taken down at any given time. \
 If that happens, you may contact me directly so that I can put this up again.
